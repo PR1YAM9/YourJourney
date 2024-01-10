@@ -72,13 +72,14 @@ router.post("/journey", userMiddleware, async (req, res) => {
       const newJourney = new Journey({
         title,
         description,
+        author: user._id
       });
   
       await newJourney.save();
     console.log(user)
   
       user.journeys = [...user.journeys, newJourney._id];
-      await User.findOneAndUpdate({ _id: user._id }, { $set: { journeys: user.journeys } });
+      await User.findOneAndUpdate({ _id: user._id }, { $set: { journeys: user.journeys, }});
   
       res.json({
         message: "journey added succesfully",
@@ -136,8 +137,7 @@ router.get('/journeys:username', userMiddleware , async (req,res)=>{
 router.get('/journey/:journeyid', userMiddleware, async (req, res) => {
     try {
         const { journeyid } = req.params;
-        const arr = journeyid.split(':')
-        const jId = arr[1];
+        const jId = journeyid.split(':')[1]
 
         const journey = await Journey.findById(jId);
 
@@ -157,4 +157,80 @@ router.get('/journey/:journeyid', userMiddleware, async (req, res) => {
         });
     }
 });
+
+router.put('/journey/:journeyid' ,userMiddleware , async (req,res)=>{
+   try {
+    const journeyId = req.params;
+    const jId = journeyId.journeyid.split(':')[1];
+    
+    const {title, description} = req.body;
+    const {user} = req;
+
+    const journey = await Journey.findById(jId);
+    
+    if(journey){
+        if(journey.author.equals(user._id)){
+            await journey.updateOne({
+                title: title,
+                description: description
+            })
+            res.json({
+                message: "Journey updated"
+            })
+        }
+        else{
+            res.json({
+                message: "Invalid User"
+            })
+        }
+    }else{
+        res.json({
+            message: "this journey does not exist"
+        })
+    }
+
+   } catch (error) {
+    res.json({
+        error: error
+    })
+   }
+})
+
+router.delete('/journey/:journeyid', userMiddleware, async (req, res) => {
+    try {
+        const journeyId = req.params;
+        const jId = journeyId.journeyid.split(':')[1];
+        const { user } = req;
+
+        const journey = await Journey.findById(jId);
+
+        if (journey) {
+            if (journey.author.equals(user._id)) {
+                // User is the author, proceed with the deletion
+                await Journey.deleteOne({ _id: jId });
+
+                res.json({
+                    message: "Journey deleted successfully",
+                    deletedJourney: journey,
+                });
+            } else {
+                // User is not the author, return an unauthorized response
+                res.status(401).json({
+                    message: "Unauthorized: You are not the author of this journey",
+                });
+            }
+        } else {
+            res.status(404).json({
+                message: "Journey not found",
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Internal Server Error",
+        });
+    }
+});
+
+
 module.exports = router;
