@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt')
 
 
 router.post("/register", async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password ,email, city , bio} = req.body;
 
   const Existinguser = await User.findOne({ username });
   if (Existinguser) {
@@ -20,6 +20,9 @@ router.post("/register", async (req, res) => {
   const user = new User({
     username,
     password,
+    email,
+    city,
+    bio
   });
   await user.save();
   res.json({
@@ -61,7 +64,7 @@ router.post("/login", async (req, res) => {
     }
 });
 
-router.post("/logout", (req, res) => {});
+// router.post("/logout", (req, res) => {});
 
 router.post("/journey", userMiddleware, async (req, res) => {
     try {

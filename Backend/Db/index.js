@@ -5,6 +5,11 @@ const bcrypt = require('bcrypt');
 
 
 const UserSchema = new mongoose.Schema({
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     username: {
       type: String,
       required: true,
@@ -14,17 +19,23 @@ const UserSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-    journeys: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Journey",
-      },
-    ],
+    city: {
+      type: String,
+      required: true,
+    },
+    bio: {
+      workExperience: {type: String},
+      education: {type: String},
+      linkedIn: {type: String},
+      github: {type: String},
+      profilePicture: {type: String},
+    }
   },
   {
     timestamps: true,
   }
 )
+
 const JourneySchema = new mongoose.Schema({
   title: {
     type: String,
