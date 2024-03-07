@@ -68,13 +68,13 @@ router.post("/login", async (req, res) => {
 
 router.post("/journey", userMiddleware, async (req, res) => {
     try {
-      const { title, description } = req.body;
+      const { content, likes } = req.body;
       const  {user}  = req;
   
       user.journeys = Array.isArray(user.journeys) ? user.journeys : [];
       const newJourney = new Journey({
-        title,
-        description,
+        content,
+        likes,
         author: user._id
       });
   
@@ -166,7 +166,7 @@ router.put('/journey/:journeyid' ,userMiddleware , async (req,res)=>{
     const journeyId = req.params;
     const jId = journeyId.journeyid.split(':')[1];
     
-    const {title, description} = req.body;
+    const {content} = req.body;
     const {user} = req;
 
     const journey = await Journey.findById(jId);
@@ -174,8 +174,7 @@ router.put('/journey/:journeyid' ,userMiddleware , async (req,res)=>{
     if(journey){
         if(journey.author.equals(user._id)){
             await journey.updateOne({
-                title: title,
-                description: description
+                content: content
             })
             res.json({
                 message: "Journey updated"

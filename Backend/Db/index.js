@@ -37,13 +37,15 @@ const UserSchema = new mongoose.Schema({
 )
 
 const JourneySchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
+  content:{
+    title: {type: String, required: true},
+    body: {type: String, required: true},
+    tags: {type: String, required: true},
+    image: {type: String, required: true},
   },
-  description: {
-    type: String,
-    required:true,
+  likes: {
+    type: Number,
+    default: 0,
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
