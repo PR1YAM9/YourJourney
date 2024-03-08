@@ -1,12 +1,8 @@
-import Post from "./Post";
-import CreatePost from "../features/feed/CreatePost";
-
+// import { usePostsContext } from "../Context/PostsProvider";
+import AllPosts from "../features/feed/AllPosts";
+// import Post from "../features/feed/Post";
 function Feed() {
-  return (
-    <div>
-      <Post />
-    </div>
-  );
+  return <AllPosts />;
 }
 
 export default Feed;

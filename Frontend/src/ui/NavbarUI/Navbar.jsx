@@ -9,7 +9,7 @@ import NavbarLink from "./NavbarLink";
 function Navbar() {
   const [expandNav, setExpandNav] = useState(false);
   return (
-    <header className="ease flex flex-col justify-start border bg-slate-800 px-4 py-4 text-white opacity-90 transition-all duration-500">
+    <header className="flex flex-col justify-start border border-white bg-slate-800 px-4 py-4 text-white opacity-90  ">
       <button
         onClick={() => setExpandNav((p) => !p)}
         className="text-left text-lg"

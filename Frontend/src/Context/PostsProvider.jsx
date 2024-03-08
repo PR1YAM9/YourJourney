@@ -10,6 +10,7 @@ function PostsProvider({ children }) {
       tags: ["lorem", "ipsum", "dolet"],
       author: "example@email.com",
       likes: 10,
+      image: "https://source.unsplash.com/random",
     },
   ]);
 
@@ -37,11 +38,21 @@ function PostsProvider({ children }) {
 
   return (
     <postContext.Provider
-      value={{ posts, addPost, incrementLikes, decrementLikes }}
+      value={{
+        posts,
+        addPost,
+        incrementLikes,
+        decrementLikes,
+      }}
     >
       {children}
     </postContext.Provider>
   );
+}
+
+export function usePostsContext() {
+  const x = useContext(postContext);
+  return x;
 }
 
 export default PostsProvider;

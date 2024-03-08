@@ -8,7 +8,7 @@ import Home from "./pages/Home";
 import Feed from "./pages/Feed";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
-import Post from "./pages/Post";
+import Post from "./features/feed/Post";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import CreatePost from "./features/feed/CreatePost";
@@ -63,7 +63,7 @@ const Router = createBrowserRouter([
 function App({ children }) {
   return (
     <PostsProvider>
-      <RouterProvider router={Router}>{children}</RouterProvider>;
+      <RouterProvider router={Router}>{children}</RouterProvider>
     </PostsProvider>
   );
 }
