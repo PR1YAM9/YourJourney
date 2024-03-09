@@ -6,6 +6,8 @@ import FormField from "../../ui/FormUI/FormField";
 import FormLabel from "../../ui/FormUI/FormLabel";
 import { MdOutlineDelete } from "react-icons/md";
 import { usePostsContext } from "../../Context/PostsProvider";
+import uuid from "react-uuid";
+
 function CreatePost() {
   const { register, handleSubmit } = useForm();
   const [tags, setTags] = useState("");
@@ -15,6 +17,9 @@ function CreatePost() {
   function onSubmitFunc(data) {
     data.image = "https://source.unsplash.com/random";
     data.tags = tagarr;
+    data.id = uuid();
+    data.likes = 0;
+    // console.log(data);
     addPost(data);
   }
 

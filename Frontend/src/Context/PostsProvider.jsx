@@ -18,22 +18,32 @@ function PostsProvider({ children }) {
     setPosts((p) => [...p, newpost]);
   }
 
+  // function UpdateLikes(likes, id) {
+  //   setPosts((posts) =>
+  //     posts.map((post) => {
+  //       if (post.id === id) {
+  //         post.likes = likes;
+  //       }
+  //     }),
+  //   );
+  // }
+
   function incrementLikes(id) {
-    setPosts((posts) =>
-      posts.map((post) => {
-        if (post.id === id) post.likes = post.likes + 1;
-      }),
-    );
+    setPosts((posts) => {
+      const p = posts.find((p) => p.id === id);
+      p.likes = p.likes + 1;
+      return posts;
+    });
   }
 
   function decrementLikes(id) {
-    setPosts((posts) =>
-      posts.map((post) => {
-        if (post.id === id && post.likes !== 0) {
-          post.likes = post.likes - 1;
-        }
-      }),
-    );
+    setPosts((posts) => {
+      const p = posts.find((p) => p.id === id);
+      if (p.likes > 0) {
+        p.likes = p.likes - 1;
+      }
+      return posts;
+    });
   }
 
   return (
